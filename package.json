@@ -28,6 +28,11 @@
     "xml2js": "^0.4.17"
   },
   "engines": {
-  	"node": "v6.10.x"
+    "node": "v6.10.x"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-minify-html": "^1.0.6",
+    "gulp-vulcanize": "^6.1.0"
   }
 }
