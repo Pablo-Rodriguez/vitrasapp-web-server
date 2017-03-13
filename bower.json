@@ -1,0 +1,22 @@
+{
+  "name": "vitrasapp-web-server",
+  "description": "Web server of a bigger project call vitrasapp whose challange is to create a better VITRASA app with improved UX and new features.",
+  "main": "app/backend/server.js",
+  "authors": [
+    "Pablo-Rodriguez <pablorp1996@gmail.com>",
+    "pablosio96 <pablosio96@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "vitrasa"
+  ],
+  "homepage": "https://github.com/Pablo-Rodriguez/vitrasapp-web-server",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
