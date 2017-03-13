@@ -18,5 +18,16 @@
   "bugs": {
     "url": "https://github.com/Pablo-Rodriguez/vitrasapp-web-server/issues"
   },
-  "homepage": "https://github.com/Pablo-Rodriguez/vitrasapp-web-server#readme"
+  "homepage": "https://github.com/Pablo-Rodriguez/vitrasapp-web-server#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "morgan": "^1.8.1",
+    "rexpress": "^0.1.0",
+    "soap": "^0.18.0",
+    "xml2js": "^0.4.17"
+  },
+  "engines": {
+  	"node": "v6.10.x"
+  }
 }
