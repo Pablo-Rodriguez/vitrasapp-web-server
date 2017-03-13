@@ -79,7 +79,7 @@ class vitrasa {
     fixEstimation (el) {
     	return {
     		linea: el.Linea[0],
-    		ruta: el.Ruta[0],
+    		ruta: el.Ruta[0].replace('Ã‘', 'Ñ'),
     		minutos: el.minutos[0],
     		metros: el.metros[0]
     	};
