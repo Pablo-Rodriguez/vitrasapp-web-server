@@ -8,6 +8,15 @@
         <title>Vitrasapp</title>
     </head>
     <body>
-        <h1>Test</h1>
+        <app-header reveals>
+            <app-toolbar>
+                <paper-icon-button icon="menu" onclick="drawer.toggle()"></paper-icon-button>
+                <div main-title>Vitrasapp</div>
+                <paper-icon-button icon="delete"></paper-icon-button>
+                <paper-icon-button icon="search"></paper-icon-button>
+                <paper-icon-button icon="close"></paper-icon-button>
+            </app-toolbar>
+        </app-header>
+        <app-drawer id="drawer" swipe-open></app-drawer>
     </body>
 </html>

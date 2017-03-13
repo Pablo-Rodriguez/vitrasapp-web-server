@@ -3,7 +3,7 @@ const gulp = require('gulp');
 const vulcanize = require('gulp-vulcanize');
 const minify = require('gulp-minify-html');
 
-gulp.task('vulcanize', () => {
+gulp.task('components', () => {
 	return gulp.src('./app/frontend/components/*.html')
       .pipe(vulcanize({
   		inlineScripts: true,
@@ -24,4 +24,4 @@ gulp.task('watch', () => {
 	gulp.watch('./app/frontend/components/**/*.html', ['components']);
 });
 
-gulp.task('default', ['html', 'vulcanize', 'watch']);
+gulp.task('default', ['html', 'components', 'watch']);
