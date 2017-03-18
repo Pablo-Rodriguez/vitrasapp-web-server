@@ -4,7 +4,7 @@
   "description": "Web server of a bigger project call vitrasapp whose challange is to create a better VITRASA app with improved UX and new features.",
   "main": "app/backend/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "run": "node ./app/backend/server.js"
   },
   "repository": {
     "type": "git",
