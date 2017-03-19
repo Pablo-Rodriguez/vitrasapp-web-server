@@ -1,0 +1,39 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../../../bower_components/iron-pages/iron-pages.html">
+
+<dom-module id="app-main-pages">
+    <template>
+        <style>
+            :host {
+                display: block;
+                margin-top: 4em;
+            }
+        </style>
+        <iron-pages
+            selected="{{page}}"
+            attr-for-selected="data-page"
+            fallback-selection="not-found">
+                <div data-page="">Home</div>
+                <div data-page="lineas">Lineas</div>
+                <div data-page="paradas">Paradas</div>
+                <div data-page="login">Login</div>
+                <div data-page="perfil">Perfil</div>
+                <div data-page="not-found">Not found</div>
+        </iron-pages>
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                is: 'app-main-pages',
+                properties: {
+                    page: {
+                        type: String,
+                        value: ''
+                    }
+                }
+            });
+        })()
+    </script>
+</dom-module>

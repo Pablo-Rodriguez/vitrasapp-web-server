@@ -1,0 +1,37 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../../../bower_components/app-layout/app-drawer/app-drawer.html">
+
+<dom-module id="app-nav">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <app-drawer id="drawer" swipe-open>
+            <nav>
+                <paper-item>Menú</paper-item>
+                <iron-selector onclick="drawer.toggle()" selected="{{page}}" attr-for-selected="data-page">
+                    <a data-page="" href="/#/"><paper-item>Home</paper-item</a>
+                    <a data-page="lineas" href="/#/lineas"><paper-item>Lineas</paper-item</a>
+                    <a data-page="paradas" href="/#/paradas"><paper-item>Paradas</paper-item</a>
+                </iron-selector>
+            </nav>
+        </app-drawer>
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                is: 'app-nav',
+                properties: {
+                    page: {
+                        type: String,
+                        value: ''
+                    }
+                }
+            });
+        })()
+    </script>
+</dom-module>

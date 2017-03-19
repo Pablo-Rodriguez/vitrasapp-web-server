@@ -8,15 +8,30 @@
         <title>Vitrasapp</title>
     </head>
     <body>
-        <app-header reveals>
-            <app-toolbar>
-                <paper-icon-button icon="menu" onclick="drawer.toggle()"></paper-icon-button>
-                <div main-title>Vitrasapp</div>
-                <paper-icon-button icon="delete"></paper-icon-button>
-                <paper-icon-button icon="search"></paper-icon-button>
-                <paper-icon-button icon="close"></paper-icon-button>
-            </app-toolbar>
-        </app-header>
-        <app-drawer id="drawer" swipe-open></app-drawer>
+        <template is="dom-bind">
+            <app-location route="{{route}}" use-hash-as-path></app-location>
+            <app-route
+            route="{{route}}"
+            pattern="/:page"
+            data="{{data}}"
+            tail="{{tail}}"></app-route>
+            <app-header reveals>
+                <app-toolbar>
+                    <paper-icon-button icon="menu" onclick="drawer.toggle()"></paper-icon-button>
+                    <div main-title>Vitrasapp</div>
+                    <paper-menu-button horizontal-align="right">
+                        <paper-icon-button icon="account-circle" class="dropdown-trigger"></paper-icon-button>
+                        <paper-menu class="dropdown-content">
+                            <iron-selector selected="{{data.page}}" attr-for-selected="data-page">
+                                <a data-page="perfil" href="/#/perfil"><paper-item>Perfil</paper-item</a>
+                                <a data-page="login" href="/#/login"><paper-item>Login</paper-item</a>
+                            </iron-selector>
+                        </paper-menu>
+                    </paper-menu-button>
+                </app-toolbar>
+            </app-header>
+            <app-nav page="{{data.page}}"></app-nav>
+            <app-main-pages page="{{data.page}}"></app-main-pages>
+        </template>
     </body>
 </html>
