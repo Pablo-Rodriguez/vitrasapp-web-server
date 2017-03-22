@@ -12,7 +12,7 @@
             }
         </style>
         <iron-pages
-            selected="{{page}}"
+            selected="{{computedPage}}"
             attr-for-selected="data-page"
             fallback-selection="not-found">
                 <div data-page="">Home</div>
@@ -31,7 +31,14 @@
                     page: {
                         type: String,
                         value: ''
+                    },
+                    computedPage: {
+                        type: String,
+                        computed: '_computePage(page)'
                     }
+                },
+                _computePage: function (page) {
+                    return page || '';
                 }
             });
         })()

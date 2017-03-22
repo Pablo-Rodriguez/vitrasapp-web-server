@@ -8,11 +8,36 @@
         <style>
             :host {
                 display: block;
+                --app-drawer-content-container: {
+                    background-color: var(--dark-color);
+                    box-shadow: 2px 0 3px rgba(0, 0, 0, 0.3);
+                };
+                --app-drawer-scrim-background: transparent;
+                color: var(--background-light-color);
+            }
+            :host a {
+                text-decoration: none;
+                color:
+            }
+            a, a:visited, a:active, a:hover {
+                color: inherit;
+            }
+            *:focus {
+                outline: none;
+            }
+            :host .menu-title {
+                height: 4rem;
+                line-height: 4rem;
+                margin: 0;
+                padding-left: 1rem;
+                font-weight: normal;
+                box-shadow: inset 0 -2px var(--light-color);
+                color: var(--primary-color);
             }
         </style>
         <app-drawer id="drawer" swipe-open>
             <nav>
-                <paper-item>Menú</paper-item>
+                <h3 class="menu-title">Menú</h3>
                 <iron-selector onclick="drawer.toggle()" selected="{{page}}" attr-for-selected="data-page">
                     <a data-page="" href="/#/"><paper-item>Home</paper-item</a>
                     <a data-page="lineas" href="/#/lineas"><paper-item>Lineas</paper-item</a>
