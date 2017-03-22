@@ -16,6 +16,10 @@
             pattern="/:page"
             data="{{data}}"
             tail="{{tail}}"></app-route>
+            <app-route
+            route="{{tail}}"
+            pattern="/:tail"
+            data="{{tailData}}"></app-route>
             <app-header reveals>
                 <app-toolbar>
                     <paper-icon-button icon="menu" onclick="drawer.toggle()"></paper-icon-button>
@@ -32,7 +36,7 @@
                 </app-toolbar>
             </app-header>
             <app-nav page="{{data.page}}"></app-nav>
-            <app-main-pages page="{{data.page}}"></app-main-pages>
+            <app-main-pages page="{{data.page}}" tail="{{tailData.tail}}"></app-main-pages>
         </template>
     </body>
 </html>

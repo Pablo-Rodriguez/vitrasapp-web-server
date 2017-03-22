@@ -1,0 +1,62 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../../bower_components/iron-icon/iron-icon.html">
+
+<dom-module id="app-stops-id">
+    <template>
+        <style>
+            :host {
+                display: block;
+                padding: 0 1rem;
+            }
+            paper-input {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        </style>
+        <iron-ajax
+            id="req"
+            url="/vitrasa/stops/by-id"
+            last-response="{{body}}"
+            debounce-duration="300"
+            ></iron-ajax>
+        <paper-input id="input" label="id de la parada" value="{{search}}" type="number">
+            <iron-icon icon="search" suffix></iron-icon>
+        </paper-input>
+        <article>
+            <h3>{{stop.id}} - {{stop.nombre}}</h3>
+            <h4>Latitud: {{stop.latitud}}, Longitud: {{stop.longitud}}</h4>
+        </article>
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                is: 'app-stops-id',
+                properties: {
+                    search: {
+                        type: String,
+                        value: '',
+                        observer: '_inputValue'
+                    },
+                    body: Object,
+                    stop: {
+                        type: Object,
+                        computed: '_computeStop(body)'
+                    }
+                },
+                _inputValue: function (_new) {
+                    if (this.$.input.validate()) {
+                        this.$.req.params = {
+                            id: _new
+                        };
+                        this.$.req.generateRequest();
+                    }
+                },
+                _computeStop: function (body) {
+                    return body ? body[0] : {};
+                }
+            });
+        })()
+    </script>
+</dom-module>

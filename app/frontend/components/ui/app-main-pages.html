@@ -2,6 +2,7 @@
 <link rel="import" href="../../../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../sections/app-stops.html">
 
 <dom-module id="app-main-pages">
     <template>
@@ -17,7 +18,7 @@
             fallback-selection="not-found">
                 <div data-page="">Home</div>
                 <div data-page="lineas">Lineas</div>
-                <div data-page="paradas">Paradas</div>
+                <app-stops data-page="paradas" tab="{{tail}}">Paradas</app-stops>
                 <div data-page="login">Login</div>
                 <div data-page="perfil">Perfil</div>
                 <div data-page="not-found">Not found</div>
@@ -35,6 +36,10 @@
                     computedPage: {
                         type: String,
                         computed: '_computePage(page)'
+                    },
+                    tail: {
+                        type: String,
+                        value: ''
                     }
                 },
                 _computePage: function (page) {
