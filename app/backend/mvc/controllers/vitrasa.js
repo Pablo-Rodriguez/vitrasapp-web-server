@@ -35,7 +35,7 @@ class vitrasa {
         promise.then((json) => {
             res.json(json);
         }).catch((err) => {
-            res.sendStatus(500);
+            res.sendStatus(404);
         });
     }
 }

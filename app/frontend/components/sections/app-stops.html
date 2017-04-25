@@ -3,6 +3,7 @@
 <link rel="import" href="../../../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../../../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="./app-stops-id.html">
+<link rel="import" href="./app-stops-location.html">
 
 <dom-module id="app-stops">
     <template>
@@ -10,6 +11,8 @@
         <style>
             :host {
                 display: block;
+                margin: 0 auto;
+                max-width: 1000px;
                 z-index: 1;
                 --paper-tab: {
                     text-align: center;
@@ -68,15 +71,13 @@
             no-bar>
             <paper-tab data-tab="id"><a href="/#/paradas/id">ID</a></paper-tab>
             <paper-tab data-tab="localizacion"><a href="/#/paradas/localizacion">Localizacion</a></paper-tab>
-            <paper-tab data-tab="mapa"><a href="/#/paradas/mapa">Mapa</a></paper-tab>
         </paper-tabs>
         <iron-pages
             selected="{{computedTab}}"
             attr-for-selected="data-tab"
             fallback-selection="id">
-            <app-stops-id data-tab="id"></app-stops-id>
-            <div data-tab="localizacion">Localizacion</div>
-            <div data-tab="mapa">Mapa</div>
+            <app-stops-id id="stop" data-tab="id"></app-stops-id>
+            <app-stops-location data-tab="localizacion" on-stop="_stop"></app-stops-location>
         </iron-pages>
 
     </template>
@@ -96,6 +97,9 @@
                 },
                 _computeTab: function (tab) {
                     return tab || 'id';
+                },
+                _stop: function (e) {
+                    this.$.stop.search = e.detail.id;
                 }
             });
         })()

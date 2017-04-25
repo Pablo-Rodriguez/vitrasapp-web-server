@@ -14,20 +14,91 @@
                 max-width: 400px;
                 margin: 0 auto;
             }
+            :host .stop-info,
+            :host .lines {
+                color: var(--background-light-color);
+                margin: 1em 0;
+                overflow: hidden;
+                background: var(--primary-color);
+                border-radius: 5px;
+                border: 4px solid var(--primary-color);
+                box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+            }
+            :host .stop-info > hgroup {
+                background: var(--secondary-color);
+                border: 4px solid var(--secondary-color);
+                box-sizing: border-box;
+                border-radius: 5px;
+                text-align: center;
+                padding-bottom: .5em;
+            }
+            :host .lines {
+                background: var(--secondary-color);
+                border: none;
+            }
+            :host .line {
+                border-bottom: 2px dashed var(--light-color);
+                padding: .5em 1.5em;
+                overflow: hidden;
+                display: flex;
+                justify-content: space-between;
+            }
+            .line:last-child {
+                border: none;
+            }
+            :host .line > * {
+                display: inline-flex;
+            }
+            :host .line .ruta {
+                margin: auto .5em;
+            }
+            :host h3 {
+                font-size: 20px;
+                font-weight: normal;
+                margin: .7em;
+            }
+            :host .stop-info span {
+                font-size: 16px;
+                display: inline-block;
+                margin: .5em;
+            }
+
         </style>
         <iron-ajax
-            id="req"
+            id="info"
             url="/vitrasa/stops/by-id"
-            last-response="{{body}}"
+            last-response="{{stopBody}}"
+            debounce-duration="300"
+            ></iron-ajax>
+        <iron-ajax
+            id="lines"
+            url="/vitrasa/estimations/by-id"
+            last-response="{{lines}}"
             debounce-duration="300"
             ></iron-ajax>
         <paper-input id="input" label="id de la parada" value="{{search}}" type="number">
             <iron-icon icon="search" suffix></iron-icon>
         </paper-input>
-        <article>
-            <h3>{{stop.id}} - {{stop.nombre}}</h3>
-            <h4>Latitud: {{stop.latitud}}, Longitud: {{stop.longitud}}</h4>
-        </article>
+        <template is="dom-if" if="{{stop.id}}">
+            <article class="stop-info">
+                <hgroup>
+                    <h3>{{stop.nombre}}</h3>
+                    <div class="location">
+                        <span>Latitud: {{stop.latitud}}</span>
+                        <span>Longitud: {{stop.longitud}}</span>
+                    </div>
+                </hgroup>
+            </article>
+            <section class="lines">
+                <template is="dom-repeat" items="{{lines}}" as="line">
+                    <article class="line">
+                        <h5 class="line-name">{{line.linea}}</h5>
+                        <h5 class="ruta">{{line.ruta}}</h5>
+                        <h5 class="mins">{{line.minutos}}'</h5>
+                    </article>
+                </template>
+            </section>
+        </template>
     </template>
     <script>
         (function () {
@@ -39,18 +110,31 @@
                         value: '',
                         observer: '_inputValue'
                     },
-                    body: Object,
+                    stopBody: Object,
                     stop: {
                         type: Object,
-                        computed: '_computeStop(body)'
+                        computed: '_computeStop(stopBody)'
+                    },
+                    lines: {
+                        type: Object,
+                        value: function () {
+                            return [];
+                        }
                     }
                 },
                 _inputValue: function (_new) {
-                    if (this.$.input.validate()) {
-                        this.$.req.params = {
+                    if (this.$.input.validate() && _new.length > 0) {
+                        this.$.info.auto = true;
+                        this.$.lines.auto = true;
+                        this.$.info.params = {
                             id: _new
                         };
-                        this.$.req.generateRequest();
+                        this.$.lines.params = {
+                            id: _new
+                        };
+                    } else {
+                        this.$.info.auto = false;
+                        this.$.lines.auto = false;
                     }
                 },
                 _computeStop: function (body) {
