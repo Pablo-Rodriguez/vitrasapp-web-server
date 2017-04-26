@@ -1,0 +1,32 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/iron-collapse/iron-collapse.html">
+
+<dom-module id="ui-collapse">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            :host > div {
+                cursor: pointer;
+            }
+        </style>
+        <div on-click="toggle">
+            <content select=".head"></content>
+        </div>
+        <iron-collapse id="collapse">
+            <content></content>
+        </iron-collapse>
+        <content></content>
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                is: 'ui-collapse',
+                toggle: function () {
+                    this.$.collapse.toggle();
+                }
+            });
+        })()
+    </script>
+</dom-module>

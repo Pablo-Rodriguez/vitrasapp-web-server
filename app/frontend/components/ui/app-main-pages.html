@@ -3,6 +3,7 @@
 <link rel="import" href="../../../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../sections/app-stops.html">
+<link rel="import" href="../sections/app-lines.html">
 
 <dom-module id="app-main-pages">
     <template>
@@ -17,8 +18,8 @@
             attr-for-selected="data-page"
             fallback-selection="not-found">
                 <div data-page="">Home</div>
-                <div data-page="lineas">Lineas</div>
-                <app-stops data-page="paradas" tab="{{tail}}">Paradas</app-stops>
+                <app-lines data-page="lineas"></app-lines>
+                <app-stops data-page="paradas" tab="{{tail}}"></app-stops>
                 <div data-page="login">Login</div>
                 <div data-page="perfil">Perfil</div>
                 <div data-page="not-found">Not found</div>
