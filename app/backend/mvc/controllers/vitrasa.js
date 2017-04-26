@@ -9,8 +9,11 @@ class vitrasa {
         rex.get('/vitrasa/stops/by-id', this.getStopByID.bind(this));
         rex.get('/vitrasa/estimations/by-position', this.getEstimationsByPos.bind(this));
         rex.get('/vitrasa/estimations/by-id', this.getEstimationsByID.bind(this));
+        rex.get('/vitrasa/lines', this.getLines.bind(this));
+        rex.get('/vitrasa/line', this.getLine.bind(this));
     }
 
+    // Endpoints
     getStopsByPos (req, res) {
         this.sendJSON(res, this.model.stopsByPos(
             req.query.latitud,
@@ -31,6 +34,15 @@ class vitrasa {
         this.sendJSON(res, this.model.estimationsById(req.query.id));
     }
 
+    getLines (req, res) {
+        this.sendJSON(res, this.model.lines());
+    }
+
+    getLine (req, res) {
+        this.sendJSON(res, this.model.line(req.query.id));
+    }
+
+    //Helpers
     sendJSON (res, promise) {
         promise.then((json) => {
             res.json(json);
