@@ -1,19 +1,10 @@
 
-const soap = require('soap');
 const toJS = require('xml2js').parseString;
-const config = require('../../config');
 
 class vitrasa {
 
-    constructor () {
-        soap.createClient(config.vitrasa.wsdl, (err, client) => {
-            if (err) {
-                console.log(err);
-                throw err;
-            } else {
-                this.client = client;
-            }
-        });
+    constructor (vitrasa) {
+        this.client = vitrasa;
     }
 
     stopsByPos (Latitud, Longitud) {

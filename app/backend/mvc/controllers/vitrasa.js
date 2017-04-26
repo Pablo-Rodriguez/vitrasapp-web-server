@@ -4,7 +4,7 @@ const Model = require('../business/vitrasa');
 class vitrasa {
 
     constructor (rex) {
-        this.model = new Model();
+        this.model = new Model(rex.getPlugin('vitrasa'));
         rex.get('/vitrasa/stops/by-position', this.getStopsByPos.bind(this));
         rex.get('/vitrasa/stops/by-id', this.getStopByID.bind(this));
         rex.get('/vitrasa/estimations/by-position', this.getEstimationsByPos.bind(this));

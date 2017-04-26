@@ -1,24 +1,38 @@
 
 const http = require('http');
 const express = require('express');
-const Rex = require('rexpress');
+const rex = require('rexpress');
+const soap = require('soap');
 
 const config = require('./config');
 const controllers = require('./mvc/');
 const middlewares = require('./middlewares');
 
 const router = express();
-const app = new Rex(router);
+const app = rex(router);
 const server = http.createServer(router);
 const port = process.env.PORT || config.port || 5000;
 
-app.setControllers(controllers);
-app.setMiddlewares(middlewares);
-
-server.listen(port, (err) => {
-	if (err) {
-		console.log(err);
-	} else {
-		console.log(`\tMagic on port ${port}`);
-	}
+new Promise((resolve, reject) => {
+	soap.createClient(config.vitrasa.wsdl, (err, client) => {
+		if (err) {
+			reject(err);
+		} else {
+			resolve(client);
+		}
+	});
+})
+.then((vitrasa) => {
+	return app.setPlugin('vitrasa', vitrasa);
+})
+.then(() => {
+	app.setControllers(controllers);
+	app.setMiddlewares(middlewares);
+	server.listen(port, (err) => {
+		if (err) {
+			console.log(err);
+		} else {
+			console.log(`\tMagic on port ${port}`);
+		}
+	});
 });
