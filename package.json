@@ -4,7 +4,7 @@
   "description": "Web server of a bigger project call vitrasapp whose challange is to create a better VITRASA app with improved UX and new features.",
   "main": "app/backend/server.js",
   "scripts": {
-    "run": "node ./app/backend/server.js",
+    "run": "nodemon --watch app/backend/ --ignore app/backend/public/  app/backend/server.js",
 	"sync": "browser-sync start --proxy localhost:5000 --files \"app/backend/\""
   },
   "repository": {
