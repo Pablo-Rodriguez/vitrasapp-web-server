@@ -1,0 +1,66 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../../bower_components/iron-icon/iron-icon.html">
+
+<dom-module id="app-login">
+    <template>
+        <style>
+            :host {
+                display: block;
+                margin: 0 auto;
+                max-width: 1000px;
+                padding: 0 1rem;
+            }
+            :host h2 {
+                margin: 0;
+                padding: 1.5rem;
+                text-align: center;
+                font-weight: normal;
+                font-size: 1.5rem;
+            }
+            :host #login-form {
+                border: 2px solid var(--primary-color);
+                border-radius: 5px;
+                padding: 1em;
+            }
+            :host #login-submit {
+                cursor: pointer;
+                margin: 1em auto;
+                display: block;
+                background: var(--primary-color);
+                border: none;
+                border-radius: 5px;
+                padding: 1em;
+                color: var(--background-light-color);
+                font-weight: bold;
+                font-size: 1.2em;
+                box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.3);
+            }
+            :host #login-submit:hover {
+                box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.3);
+            }
+            @media screen and (min-width: 1000px) {
+                :host h2 {
+                    font-size: 3rem;
+                }
+            }
+        </style>
+        <h2>Login</h2>
+        <form id="login-form" action="/usuarios/login" method="post">
+            <paper-input label="Usuario" name="username">
+                <iron-icon icon="account-circle" suffix></iron-icon>
+            </paper-input>
+            <paper-input type="password" name="password" label="password">
+                <iron-icon icon="lock" suffix></iron-icon>
+            </paper-input>
+            <input id="login-submit" type="submit" value="Enviar">
+        </form>
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                is: 'app-login'
+            });
+        })();
+    </script>
+</dom-module>

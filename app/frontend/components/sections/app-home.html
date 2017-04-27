@@ -1,0 +1,52 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+
+<dom-module id="app-home">
+    <template>
+        <style>
+            :host {
+                display: block;
+                overflow: hidden;
+            }
+            :host h2 {
+                font-family: 'Pacifico', cursive;
+                font-size: 5rem;
+                text-align: center;
+                margin-top: 1em;
+            }
+            :host .cont {
+                display: flex;
+                justify-content: space-around;
+            }
+            :host .cont a {
+                flex-grow: 1;
+                flex-basis: 50%;
+                max-width: 150px;
+                margin: 2em;
+                background: var(--primary-color);
+                color: var(--background-light-color);
+                padding: 1em;
+                text-align: center;
+                text-decoration: none;
+                font-weight: bold;
+                border-radius: 5px;
+                box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.3);
+                cursor: pointer;
+            }
+            :host .cont a:hover {
+                box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.3);
+            }
+        </style>
+        <h2>Vitrasapp</h2>
+        <div class="cont">
+            <a href="/#/lineas">Lineas</a>
+            <a href="/#/paradas">Paradas</a>
+        </div>
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                is: 'app-home'
+            });
+        })();
+    </script>
+</dom-module>

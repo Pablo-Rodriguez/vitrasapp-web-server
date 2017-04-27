@@ -2,8 +2,11 @@
 <link rel="import" href="../../../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../sections/app-home.html">
 <link rel="import" href="../sections/app-stops.html">
 <link rel="import" href="../sections/app-lines.html">
+<link rel="import" href="../sections/app-login.html">
+<link rel="import" href="../sections/app-new-user.html">
 
 <dom-module id="app-main-pages">
     <template>
@@ -17,10 +20,11 @@
             selected="{{computedPage}}"
             attr-for-selected="data-page"
             fallback-selection="not-found">
-                <div data-page="">Home</div>
+                <app-home data-page=""></app-home>
                 <app-lines data-page="lineas"></app-lines>
                 <app-stops data-page="paradas" tab="{{tail}}"></app-stops>
-                <div data-page="login">Login</div>
+                <app-login data-page="login"></app-login>
+                <app-new-user data-page="signin"></app-new-user>
                 <div data-page="perfil">Perfil</div>
                 <div data-page="not-found">Not found</div>
         </iron-pages>
