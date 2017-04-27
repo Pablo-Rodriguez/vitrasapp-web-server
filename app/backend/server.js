@@ -23,6 +23,7 @@ new Promise((resolve, reject) => {
 	});
 })
 .then((vitrasa) => {
+	app.setPlugin('user', {});
 	return app.setPlugin('vitrasa', vitrasa);
 })
 .then(() => {
