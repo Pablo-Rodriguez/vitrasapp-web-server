@@ -1,0 +1,71 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+
+<dom-module id="app-profile">
+    <template>
+        <style>
+            :host {
+                display: block;
+                margin: 0 auto;
+                max-width: 1000px;
+                padding: 0 1rem;
+            }
+            :host h2 {
+                margin: 0;
+                padding: 1.5rem;
+                text-align: center;
+                font-weight: normal;
+                font-size: 1.5rem;
+            }
+            :host ul {
+                border: 2px solid var(--primary-color);
+                border-radius: 5px;
+                padding: 1em;
+            }
+            :host li {
+                list-style: none;
+                display: flex;
+                justify-content: space-between;
+            }
+            @media screen and (min-width: 1000px) {
+                :host h2 {
+                    font-size: 3rem;
+                }
+                :host ul {
+                    font-size: 1.3em;
+                }
+            }
+        </style>
+        <h2>Perfil</h2>
+        <template is="dom-if" if="{{body.username}}">
+            <ul>
+                <li><b>Username:</b><span>{{body.username}}</span></li>
+                <li><b>Nombre:</b><span>{{body.name}}</span></li>
+                <li><b>Apellidos:</b><span>{{body.second}}</span></li>
+                <li><b>DNI:</b><span>{{body.dni}}</span></li>
+                <li><b>email:</b><span>{{body.email}}</span></li>
+                <li><b>Teléfono:</b><span>{{body.phone}}</span></li>
+            </ul>
+        </template>
+        <template is="dom-if" if="{{!body.username}}">
+            <div>
+                <h4>No estás logueado</h4>
+                <a href="#/login">Login</a>
+            </div>
+        </template>
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                is: 'app-profile',
+                properties: {
+                    body: {
+                        type: Object,
+                        value: function () {
+                            return {};
+                        }
+                    }
+                }
+            });
+        })();
+    </script>
+</dom-module>

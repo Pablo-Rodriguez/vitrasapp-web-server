@@ -5,7 +5,7 @@ class user {
     }
 
     create (body) {
-        
+        console.log(body);
     }
 }
 

@@ -46,14 +46,15 @@
             }
         </style>
         <h2>Sign in</h2>
-        <form id="signin-form" action="/usuarios/signin" method="post">
-            <paper-input label="Usuario" name="username">
-                <iron-icon icon="account-circle" suffix></iron-icon>
-            </paper-input>
-            <paper-input type="password" name="password" label="password">
-                <iron-icon icon="lock" suffix></iron-icon>
-            </paper-input>
-            <input id="signin-submit" type="submit" value="Enviar">
+        <form id="signin-form" action="/usuarios/signin" method="post" enctype="application/x-www-form-urlencoded">
+            <paper-input label="Usuario" name="username"></paper-input>
+            <paper-input type="password" name="password" label="password"></paper-input>
+            <paper-input label="Nombre" name="name"></paper-input>
+            <paper-input label="Apellidos" name="second"></paper-input>
+            <paper-input label="dni" name="dni"></paper-input>
+            <paper-input label="email" name="email"></paper-input>
+            <paper-input label="telefono" name="phone"></paper-input>
+            <input id="signin-submit" type="submit" value="Crear usuario">
         </form>
     </template>
     <script>

@@ -10,17 +10,26 @@ class user {
 			successRedirect: '/#/perfil',
 			failureRedirect: '/#/'
 		}));
-		rex.get('/usuarios/prefil', 'auth', this.get);
+		rex.get('/usuarios/perfil', 'auth', this.get);
 		rex.get('/usuarios/logout', 'auth', this.logout);
 	}
 
 	newUser (req, res) {
+		// TODO -> Crear usuario en el servicio externo
 		this.model.create(req.body);
+		res.redirect('/#/perfil');
 	}
 
 	get (req, res) {
 		// TODO -> devolver perfil cuando este conectado el servicio
-		res.end();
+		res.json({
+			username: 'pablo',
+			name: 'Pablo',
+			second: 'Rodriguez',
+			dni: '12121212a',
+			email: 'asd@gmail.com',
+			phone: '654234234'
+		});
 	}
 
 	logout (req, res) {
