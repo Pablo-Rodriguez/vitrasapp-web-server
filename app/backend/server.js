@@ -37,6 +37,7 @@ new Promise((resolve, reject) => {
 })
 .then((vitrasa) => {
 	app.setPlugin('user', {});
+	app.setPlugin('places', {});
 	return app.setPlugin('vitrasa', vitrasa);
 })
 .then(() => {
