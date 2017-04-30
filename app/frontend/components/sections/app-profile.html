@@ -1,4 +1,6 @@
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../../bower_components/iron-icon/iron-icon.html">
 
 <dom-module id="app-profile">
     <template>
@@ -8,6 +10,7 @@
                 margin: 0 auto;
                 max-width: 1000px;
                 padding: 0 1rem;
+                text-align: center;
             }
             :host h2 {
                 margin: 0;
@@ -26,6 +29,21 @@
                 display: flex;
                 justify-content: space-between;
             }
+            :host button {
+                border: none;
+                max-width: 150px;
+                background: var(--primary-color);
+                color: var(--background-light-color);
+                padding: 1em;
+                text-align: center;
+                font-weight: bold;
+                border-radius: 5px;
+                box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.3);
+                cursor: pointer;
+            }
+            :host button:hover {
+                box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.3);
+            }
             @media screen and (min-width: 1000px) {
                 :host h2 {
                     font-size: 3rem;
@@ -35,6 +53,11 @@
                 }
             }
         </style>
+        <iron-ajax
+            id="req"
+            url="/usuarios/logout"
+            on-response="handleResponse"
+            ></iron-ajax>
         <h2>Perfil</h2>
         <template is="dom-if" if="{{body.username}}">
             <ul>
@@ -45,6 +68,10 @@
                 <li><b>email:</b><span>{{body.email}}</span></li>
                 <li><b>Teléfono:</b><span>{{body.phone}}</span></li>
             </ul>
+            <button type="button" on-click="handleClick">
+                Logout
+                <iron-icon icon="exit-to-app"></iron-icon>
+            </button>
         </template>
         <template is="dom-if" if="{{!body.username}}">
             <div>
@@ -64,6 +91,12 @@
                             return {};
                         }
                     }
+                },
+                handleClick: function () {
+                    this.$.req.generateRequest();
+                },
+                handleResponse: function () {
+                    window.location.hash = '#/';
                 }
             });
         })();
