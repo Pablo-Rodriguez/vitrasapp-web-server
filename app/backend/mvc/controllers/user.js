@@ -52,7 +52,8 @@ class user {
 	}
 
 	addFavLine (req, res) {
-		res.end();
+		console.log(req.body);
+		res.json({ok: true});
 	}
 
 	deleteFavStop (req, res) {

@@ -1,0 +1,81 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../ui/ui-collapse.html">
+
+<dom-module id="vitrasa-lines">
+    <template>
+        <style>
+            :host {
+                display: block;
+                margin: 0 auto;
+                max-width: 1000px;
+            }
+            :host .lines {
+                color: var(--background-light-color);
+                margin: 1em 0;
+                overflow: hidden;
+                background: var(--secondary-color);
+                border-radius: 5px;
+                border: none;
+                box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+            }
+            :host .line {
+                border-bottom: 2px dashed var(--light-color);
+                overflow: hidden;
+            }
+            :host .head {
+                font-size: 1.5rem;
+                padding: .5em 1.5em;
+                display: flex;
+                text-align: center;
+                align-items: center;
+            }
+            :host .head > .line-name {
+                flex: 1;
+            }
+            :host .line-body {
+                padding: .5em 1.5em;
+                text-align: justify;
+            }
+        </style>
+        <section class="lines">
+            <template is="dom-repeat" items="{{lines}}" as="line">
+                <ui-collapse class="line">
+                    <div class="head">
+                        <span>{{line.id}}</span>
+                        <span class="line-name">{{line.name}}</span>
+                        <paper-icon-button icon="{{icon}}" on-click="handleClick"></paper-icon-button>
+                    </div>
+                    <div class="line-body">
+                        <p><b>Ida:</b> {{line.ida}}</p>
+                        <p><b>Vuelta:</b> {{line.vuelta}}</p>
+                    </div>
+                </ui-collapse>
+            </template>
+        </section>
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                is: 'vitrasa-lines',
+                properties: {
+                    lines: {
+                        type: Object,
+                        value: function () {
+                            return [];
+                        }
+                    },
+                    icon: {
+                        type: String,
+                        value: ''
+                    }
+                },
+                handleClick: function (e) {
+                    e.stopPropagation();
+                    let model = e.model.get('line');
+                    this.fire('btn-click', model);
+                }
+            });
+        })();
+    </script>
+</dom-module>

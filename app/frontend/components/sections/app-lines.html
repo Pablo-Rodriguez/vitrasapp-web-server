@@ -1,6 +1,6 @@
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../ui/ui-collapse.html">
+<link rel="import" href="../vitrasa/vitrasa-lines.html">
 
 <dom-module id="app-lines">
     <template>
@@ -18,32 +18,6 @@
                 font-weight: normal;
                 font-size: 1.5rem;
             }
-            :host .lines {
-                color: var(--background-light-color);
-                margin: 1em 0;
-                overflow: hidden;
-                background: var(--secondary-color);
-                border-radius: 5px;
-                border: none;
-                box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-            }
-            :host .line {
-                border-bottom: 2px dashed var(--light-color);
-                overflow: hidden;
-            }
-            :host .head {
-                font-size: 1.5rem;
-                padding: .5em 1.5em;
-                display: flex;
-                text-align: center;
-            }
-            :host .head > .line-name {
-                flex: 1;
-            }
-            :host .line-body {
-                padding: .5em 1.5em;
-                text-align: justify;
-            }
             @media screen and (min-width: 1000px) {
                 :host h2 {
                     font-size: 3rem;
@@ -55,26 +29,33 @@
             url="/vitrasa/lines"
             last-response="{{lines}}"
             ></iron-ajax>
+        <iron-ajax
+            id="req"
+            method="post"
+            content-type="application/x-www-form-urlencoded"
+            url="/usuarios/lineas-favoritas"
+            on-response="handleResponse"></iron-ajax>
         <h2>Lineas</h2>
-        <section class="lines">
-            <template is="dom-repeat" items="{{lines}}" as="line">
-                <ui-collapse class="line">
-                    <div class="head">
-                        <span>{{line.id}}</span>
-                        <span class="line-name">{{line.name}}</span>
-                    </div>
-                    <div class="line-body">
-                        <p><b>Ida:</b> {{line.ida}}</p>
-                        <p><b>Vuelta:</b> {{line.vuelta}}</p>
-                    </div>
-                </ui-collapse>
-            </template>
-        </section>
+        <vitrasa-lines
+            lines="{{lines}}"
+            icon="add"
+            on-btn-click="handleClick"></vitrasa-lines>
     </template>
     <script>
         (function () {
             Polymer({
-                is: 'app-lines'
+                is: 'app-lines',
+                handleClick: function (e) {
+                    this.$.req.body = e.detail;
+                    this.$.req.generateRequest();
+                },
+                handleResponse: function (e, res) {
+                    if (res.response != null) {
+                        console.log(res.response);
+                    } else {
+                        window.location.hash = '#/login';
+                    }
+                }
             });
         })()
     </script>
