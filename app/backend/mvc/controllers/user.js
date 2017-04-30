@@ -8,7 +8,7 @@ class user {
 		rex.post('/usuarios/signin', this.newUser.bind(this));
 		rex.post('/usuarios/login', passport.authenticate('local', {
 			successRedirect: '/#/perfil',
-			failureRedirect: '/#/'
+			failureRedirect: '/#/login'
 		}));
 		rex.get('/usuarios/perfil', 'auth', this.get.bind(this));
 		rex.get('/usuarios/paradas-favoritas', 'auth', this.favStops.bind(this));

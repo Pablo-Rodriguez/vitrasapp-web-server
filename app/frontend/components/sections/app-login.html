@@ -47,10 +47,10 @@
         </style>
         <h2>Login</h2>
         <form id="login-form" action="/usuarios/login" method="post">
-            <paper-input label="Usuario" name="username">
+            <paper-input label="Usuario" name="username" required>
                 <iron-icon icon="account-circle" suffix></iron-icon>
             </paper-input>
-            <paper-input type="password" name="password" label="password">
+            <paper-input type="password" name="password" label="password" required>
                 <iron-icon icon="lock" suffix></iron-icon>
             </paper-input>
             <input id="login-submit" type="submit" value="Enviar">
