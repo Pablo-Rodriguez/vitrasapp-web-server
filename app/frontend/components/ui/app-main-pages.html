@@ -23,6 +23,11 @@
             on-response="handleResponse"
             last-response="{{body}}"
             ></iron-ajax>
+        <iron-ajax
+            id="reqLineas"
+            url="/usuarios/lineas-favoritas"
+            on-response="handleLineas"
+            ></iron-ajax>
         <iron-pages
             id="pages"
             selected="{{computedPage}}"
@@ -34,7 +39,7 @@
                 <app-stops data-page="paradas" tab="{{tail}}"></app-stops>
                 <app-login data-page="login"></app-login>
                 <app-new-user data-page="signin"></app-new-user>
-                <app-profile data-page="perfil" body="{{body}}"></app-profile>
+                <app-profile data-page="perfil" body="{{body}}" lines="{{favLines}}"></app-profile>
                 <div data-page="not-found">Not found</div>
         </iron-pages>
     </template>
@@ -54,6 +59,18 @@
                     tail: {
                         type: String,
                         value: ''
+                    },
+                    body: {
+                        type: Object,
+                        value: function () {
+                            return {};
+                        }
+                    },
+                    favLines: {
+                        type: Object,
+                        value: function () {
+                            return [];
+                        }
                     }
                 },
                 onChange: function () {
@@ -64,6 +81,13 @@
                 handleResponse: function (e, res) {
                     if (res.response == null) {
                         window.location = "#/login"
+                    } else {
+                        this.$.reqLineas.generateRequest();
+                    }
+                },
+                handleLineas: function (e, res) {
+                    if (res.response != null && this.body.username != null) {
+                        this.favLines = res.response;
                     }
                 },
                 _computePage: function (page) {

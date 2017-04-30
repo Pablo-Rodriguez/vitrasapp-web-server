@@ -1,6 +1,7 @@
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../vitrasa/vitrasa-lines.html">
 
 <dom-module id="app-profile">
     <template>
@@ -18,6 +19,13 @@
                 text-align: center;
                 font-weight: normal;
                 font-size: 1.5rem;
+            }
+            :host h3 {
+                margin: 0;
+                padding: 1.5rem;
+                text-align: center;
+                font-weight: normal;
+                font-size: 1.3rem;
             }
             :host ul {
                 border: 2px solid var(--primary-color);
@@ -48,6 +56,9 @@
                 :host h2 {
                     font-size: 3rem;
                 }
+                :host h3 {
+                    font-size: 2rem;
+                }
                 :host ul {
                     font-size: 1.3em;
                 }
@@ -58,6 +69,13 @@
             url="/usuarios/logout"
             on-response="handleResponse"
             ></iron-ajax>
+        <iron-ajax
+            id="reqLines"
+            url="/usuarios/lineas-favoritas"
+            method="post"
+            content-type="application/x-www-form-urlencoded"
+            params='{"_method": "delete"}'
+            on-response="lineDeleted"></iron-ajax>
         <h2>Perfil</h2>
         <template is="dom-if" if="{{body.username}}">
             <ul>
@@ -68,6 +86,11 @@
                 <li><b>email:</b><span>{{body.email}}</span></li>
                 <li><b>Teléfono:</b><span>{{body.phone}}</span></li>
             </ul>
+            <h3>Lineas favoritas</h3>
+            <vitrasa-lines
+                lines="{{lines}}"
+                icon="close"
+                on-btn-click="deleteLine"></vitrasa-lines>
             <button type="button" on-click="handleClick">
                 Logout
                 <iron-icon icon="exit-to-app"></iron-icon>
@@ -90,6 +113,12 @@
                         value: function () {
                             return {};
                         }
+                    },
+                    lines: {
+                        type: Object,
+                        value: function () {
+                            return [];
+                        }
                     }
                 },
                 handleClick: function () {
@@ -97,6 +126,22 @@
                 },
                 handleResponse: function () {
                     window.location.hash = '#/';
+                },
+                deleteLine: function (e) {
+                    e.stopPropagation();
+                    this.$.reqLines.body = e.detail;
+                    this.$.reqLines.generateRequest();
+                },
+                lineDeleted: function (e, res) {
+                    if (res.response != null) {
+                        console.log(res.response);
+                        this.lines = this.lines.filter((el) => {
+                            return el.id.toLowerCase() === res.response.id.toLowerCase()
+                                ? false : el;
+                        });
+                    } else {
+                        window.location.hash = '#/login';
+                    }
                 }
             });
         })();
