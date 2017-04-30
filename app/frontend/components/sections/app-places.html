@@ -1,4 +1,9 @@
 <link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../../../bower_components/google-map/google-map-marker.html">
+<link rel="import" href="../../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../../bower_components/paper-button/paper-button.html">
 
 <dom-module id="app-places">
     <template>
@@ -7,7 +12,6 @@
                 display: block;
                 margin: 0 auto;
                 max-width: 1000px;
-                padding: 0 1rem;
                 text-align: center;
             }
             :host h2 {
@@ -17,6 +21,25 @@
                 font-weight: normal;
                 font-size: 1.5rem;
             }
+            paper-input {
+                text-align: left;
+            }
+            paper-button {
+                background: var(--primary-color);
+                color: var(--background-light-color);
+                margin: .5em 0 1em 0;
+            }
+            #inputs * {
+                display: inline-block;
+                margin: 0 .5em;
+            }
+            google-map {
+                width: 100%;
+                height: 60vh;
+                border: 2px solid var(--primary-color);
+                border-left: none;
+                border-right: none;
+            }
             @media screen and (min-width: 1000px) {
                 :host h2 {
                     font-size: 3rem;
@@ -24,11 +47,89 @@
             }
         </style>
         <h2>Lugares de interés</h2>
+        <iron-ajax
+            id="req"
+            url="/places/by-position"
+            last-response="{{res}}"
+            debounce-duration="300"
+            ></iron-ajax>
+        <div id="inputs">
+            <paper-input
+                id="lat"
+                label="Latitud"
+                pattern="[+-]?([0-9]*[.])?[0-9]+"
+                value="{{latitud}}"></paper-input>
+            <paper-input
+                id="lon"
+                label="Longitud"
+                pattern="[+-]?([0-9]*[.])?[0-9]+"
+                value="{{longitud}}"></paper-input>
+        </div>
+        <paper-button raised on-click="_getPos">Usar posicion actual</paper-button>
+        <section id="results">
+            <template is="dom-if" if="{{places.length}}">
+                <google-map
+                    api-key="AIzaSyAMO0H_IyeOvXMmt0NUh7KwiA2CGuSn7fk"
+                    latitude="[[latitud]]"
+                    longitude="[[longitud]]"
+                    fit-to-markers
+                    zoom="15">
+                    <template is="dom-repeat" items="{{places}}" as=place>
+                        <google-map-marker latitude="[[place.lat]]" longitude="[[place.lng]]">
+                            {{place.name}}
+                        </google-map-marker>
+                    </template>
+                </google-map>
+            </template>
+        </section>
     </template>
     <script>
         (function () {
             Polymer({
-                is: 'app-places'
+                is: 'app-places',
+                properties: {
+                    latitud: Number,
+                    longitud: Number,
+                    pos: {
+                        type: Object,
+                        value: function () {
+                            return {};
+                        },
+                        computed: '_position(latitud, longitud)'
+                    },
+                    res: Object,
+                    places: {
+                        type: Object,
+                        value: function () {
+                            return [];
+                        },
+                        computed: '_places(res)'
+                    }
+                },
+                _getPos: function () {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function (p) {
+                            this.$.lat.value = p.coords.latitude;
+                            this.$.lon.value = p.coords.longitude;
+                        }.bind(this));
+                    } else {
+                        alert('Tu navegador no soporta la geolocalizacion');
+                    }
+                },
+                _position: function (lat, lon) {
+                    if (this.$.lat.validate() && lat && this.$.lon.validate() && lon) {
+                        this.$.req.auto = true;
+                        this.$.req.params = {
+                            latitud: lat,
+                            longitud: lon
+                        };
+                    } else {
+                        this.$.req.auto = false;
+                    }
+                },
+                _places: function (res) {
+                    return res || [];
+                }
             });
         })();
     </script>
