@@ -19,12 +19,12 @@
                 font-weight: normal;
                 font-size: 1.5rem;
             }
-            :host #signin-form {
+            :host #signup-form {
                 border: 2px solid var(--primary-color);
                 border-radius: 5px;
                 padding: 1em;
             }
-            :host #signin-submit {
+            :host #signup-submit {
                 cursor: pointer;
                 margin: 1em auto;
                 display: block;
@@ -37,7 +37,7 @@
                 font-size: 1.2em;
                 box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.3);
             }
-            :host #signin-submit:hover {
+            :host #signup-submit:hover {
                 box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.3);
             }
             @media screen and (min-width: 1000px) {
@@ -46,8 +46,8 @@
                 }
             }
         </style>
-        <h2>Sign in</h2>
-        <form id="signin-form" action="/usuarios/signin" method="post" enctype="application/x-www-form-urlencoded">
+        <h2>Sign up</h2>
+        <form id="signup-form" action="/usuarios/signup" method="post" enctype="application/x-www-form-urlencoded">
             <paper-input label="Usuario" name="username"></paper-input>
             <paper-input type="password" name="password" label="password"></paper-input>
             <paper-input label="Nombre" name="name"></paper-input>
@@ -55,7 +55,7 @@
             <paper-input label="dni" name="dni"></paper-input>
             <paper-input label="email" name="email"></paper-input>
             <paper-input label="telefono" name="phone"></paper-input>
-            <input id="signin-submit" type="submit" value="Crear usuario">
+            <input id="signup-submit" type="submit" value="Crear usuario">
         </form>
     </template>
     <script>
