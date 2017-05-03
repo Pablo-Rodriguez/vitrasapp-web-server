@@ -53,6 +53,9 @@ class user {
         return util.request(this.client, 'ver_mis_rutas', {usuario: usuario})
         .then((user) => (config.crypto.db ? util.decode(user) : user))
         .then((user) => user.rutas.ruta)
+        .then((lines) => {
+            return (typeof lines === 'object' ? lines : [lines])
+        })
     }
 
     fixUser (user) {

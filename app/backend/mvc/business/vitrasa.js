@@ -63,6 +63,12 @@ class vitrasa {
         });
     }
 
+    linesById (ids) {
+        return Promise.all(ids.map((id) => {
+            return this.line(id);
+        }))
+    }
+
     fixStop (el) {
         return {
             id: el.$.idparada,

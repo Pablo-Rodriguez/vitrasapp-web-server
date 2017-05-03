@@ -27,8 +27,14 @@
         <iron-ajax
             id="reqLineas"
             url="/usuarios/lineas-favoritas"
-            on-response="handleLineas"
+            on-response="handleIDs"
             ></iron-ajax>
+        <iron-ajax
+            id="reqLinesInfo"
+            url="/vitrasa/lines-by-id"
+            content-type="application/x-www-form-urlencoded"
+            method="post"
+            on-response="handleLines"></iron-ajax>
         <iron-pages
             id="pages"
             selected="{{computedPage}}"
@@ -87,7 +93,14 @@
                         this.$.reqLineas.generateRequest();
                     }
                 },
-                handleLineas: function (e, res) {
+                handleIDs: function (e, res) {
+                    if (res.response != null && this.body.username != null) {
+                        this.$.reqLinesInfo.body = {};
+                        this.$.reqLinesInfo.body.ids = JSON.stringify({ids: res.response});
+                        this.$.reqLinesInfo.generateRequest();
+                    }
+                },
+                handleLines: function (e, res) {
                     if (res.response != null && this.body.username != null) {
                         this.favLines = res.response;
                     }

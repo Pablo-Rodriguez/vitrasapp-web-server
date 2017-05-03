@@ -13,7 +13,7 @@ class vitrasa {
         rex.get('/vitrasa/estimations/by-position', this.getEstimationsByPos.bind(this));
         rex.get('/vitrasa/estimations/by-id', this.getEstimationsByID.bind(this));
         rex.get('/vitrasa/lines', this.getLines.bind(this));
-        rex.get('/vitrasa/line', this.getLine.bind(this));
+        rex.post('/vitrasa/lines-by-id', this.getLinesById.bind(this));
     }
 
     // Endpoints
@@ -41,8 +41,8 @@ class vitrasa {
         util.sendJSON(res, this.model.lines());
     }
 
-    getLine (req, res) {
-        util.sendJSON(res, this.model.line(req.query.id));
+    getLinesById (req, res) {
+        util.sendJSON(res, this.model.linesById(JSON.parse(req.body.ids).ids));
     }
 }
 
