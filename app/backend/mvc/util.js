@@ -2,12 +2,16 @@
 const toJS = require('xml2js').parseString;
 const base64 = require('base64-js');
 const MCrypt = require('mcrypt').MCrypt;
+const config = require('../config');
 
 module.exports = {
     sendJSON (res, promise) {
         promise.then((json) => {
             res.json(json);
         }).catch((err) => {
+            if (config.debug) {
+                console.log(err);
+            }
             res.sendStatus(404);
         });
     },

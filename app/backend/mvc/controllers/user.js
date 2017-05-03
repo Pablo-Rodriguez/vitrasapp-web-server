@@ -1,13 +1,14 @@
 
 const passport = require('passport');
 const Model = require('../business/user');
+const util = require('../util');
 
 const config = require('../../config');
 
 class user {
 	constructor (rex) {
         this.model = new Model(rex.getPlugin(config.services.db));
-		rex.post('/usuarios/signin', this.newUser.bind(this));
+		rex.post('/usuarios/signup', this.newUser.bind(this));
 		rex.post('/usuarios/login', passport.authenticate('local', {
 			successRedirect: '/#/perfil',
 			failureRedirect: '/#/login'
@@ -24,21 +25,13 @@ class user {
 	}
 
 	newUser (req, res) {
-		// TODO -> Crear usuario en el servicio externo
-		this.model.create(req.body);
-		res.redirect('/#/perfil');
+		this.model.create(req.body)
+		.then(() => res.redirect('/#/perfil'))
+		.catch(() => res.redirect('/#/signup'));
 	}
 
 	get (req, res) {
-		// TODO -> devolver perfil cuando este conectado el servicio
-		res.json({
-			username: 'pablo',
-			name: 'Pablo',
-			second: 'Rodriguez',
-			dni: '12121212a',
-			email: 'asd@gmail.com',
-			phone: '654234234'
-		});
+		util.sendJSON(res, this.model.getUser(req.user.username));
 	}
 
 	favStops (req, res) {

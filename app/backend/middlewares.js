@@ -12,9 +12,9 @@ const passport = require('passport');
 const passportConfig = require('./middlewares/passport');
 const auth = require('./middlewares/auth');
 
-passportConfig(passport);
 
 module.exports = (rex) => {
+	passportConfig(passport, rex);
 	rex.load('morgan', morgan('dev'));
 	rex.load('body-parser-urlencoded', bodyParser.urlencoded({extended: false}));
 	rex.load('body-parser-json', bodyParser.json());
