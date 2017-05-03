@@ -1,79 +1,66 @@
 
-const toJS = require('xml2js').parseString;
+const util = require('../util.js');
+const config = require('../../config');
 
 class vitrasa {
 
-    constructor (vitrasa) {
-        this.client = vitrasa;
+    constructor (vitrasa, routes) {
+        this.vitrasa = vitrasa;
+        this.routes = routes;
     }
 
     stopsByPos (Latitud, Longitud) {
-        return this.request('BuscarParadas', {Latitud, Longitud})
-        .then(this.parseXML('BuscarParadasResult'))
+        return util.request(this.vitrasa, 'BuscarParadas', {Latitud, Longitud})
+        .then(util.parseXML('BuscarParadasResult'))
         .then((json) => json.Paradas.Parada.map(this.fixStop));
     }
 
     stopById (IdParada) {
-        return this.request('BuscarParadasIdParada', {IdParada})
-        .then(this.parseXML('BuscarParadasIdParadaResult'))
+        return util.request(this.vitrasa, 'BuscarParadasIdParada', {IdParada})
+        .then(util.parseXML('BuscarParadasIdParadaResult'))
         .then((json) => json.Paradas.Parada.map(this.fixStop));
     }
 
     estimationsByPos (Latitud, Longitud) {
-        return this.request('EstimacionParadaCoordenadas', {Latitud, Longitud, Distancia: 100})
-        .then(this.parseXML('EstimacionParadaCoordenadasResult'))
+        return util.request(this.vitrasa, 'EstimacionParadaCoordenadas', {Latitud, Longitud, Distancia: 100})
+        .then(util.parseXML('EstimacionParadaCoordenadasResult'))
         .then((json) => json.NewDataSet.Estimaciones.map(this.fixEstimation));
     }
 
     estimationsById (IdParada) {
-        return this.request('EstimacionParadaIdParada', {IdParada})
-        .then(this.parseXML('EstimacionParadaIdParadaResult'))
+        return util.request(this.vitrasa, 'EstimacionParadaIdParada', {IdParada})
+        .then(util.parseXML('EstimacionParadaIdParadaResult'))
         .then((json) => json.NewDataSet.Estimaciones.map(this.fixEstimation));
     }
 
     lines () {
-        return new Promise((resolve, reject) => {
-            resolve([
-                {id: 'C1', name: 'CIRCULAR CENTRO', ida: 'PZA. AMÉRICA - CORUÑA - PZA. EUGENIO FADRIQUE - TORRECEDEIRA – GAITEIRO R. PORTELA - BERBÉS – CÁNOVAS DEL CASTILLO – G. OLLOQUI - PZA. COMPOSTELA – RECONQUISTA – P. SANZ - COLÓN - URZÁIZ - GRAN VIA - PZA. ESPAÑA - BARCELONA - CAMELIAS - PZA. AMÉRICA.', vuelta: 'SOLO IDA (LÍNEA CIRCULAR)'},
-                {id: 'L8', name: 'AREAL – PORTO / UNIVERSIDADE', ida: 'ESTACIÓN FF.CC. (GUIXAR) – AREAL – COLÓN – P. SANZ – Pº ALFONSO XII – PI I MARGALL – LÓPEZ MORA – PZA. AMÉRICA – AVDA. CASTRELOS – CLARA CAMPOAMOR – CORREDOURA – CASTRELOS COSTA – PORTOLOUREIRO – SEIXO – ESTR. VENDA – PORTO – FALCOIDO – UNIVERSIDADE', vuelta: 'UNIVERSIDADE – FALCOIDO – PORTO – ESTR. VENDA – SEIXO – PORTOLOUREIRO – CASTRELOS COSTA – PONTILLÓN – LATERAL ARQUITECTO PALACIOS – AVDA. CASTRELOS - GRAN VÍA – PZA. ESPAÑA - GRAN VÍA – URZÁIZ – REPÚBLICA ARGENTINA – G. BARBÓN – MIRAGALLA - ESTACIÓN FF.CC. (GUIXAR)'},
-                {id: 'C1', name: 'CIRCULAR CENTRO', ida: 'PZA. AMÉRICA - CORUÑA - PZA. EUGENIO FADRIQUE - TORRECEDEIRA – GAITEIRO R. PORTELA - BERBÉS – CÁNOVAS DEL CASTILLO – G. OLLOQUI - PZA. COMPOSTELA – RECONQUISTA – P. SANZ - COLÓN - URZÁIZ - GRAN VIA - PZA. ESPAÑA - BARCELONA - CAMELIAS - PZA. AMÉRICA.', vuelta: 'SOLO IDA (LÍNEA CIRCULAR)'},
-                {id: 'L8', name: 'AREAL – PORTO / UNIVERSIDADE', ida: 'ESTACIÓN FF.CC. (GUIXAR) – AREAL – COLÓN – P. SANZ – Pº ALFONSO XII – PI I MARGALL – LÓPEZ MORA – PZA. AMÉRICA – AVDA. CASTRELOS – CLARA CAMPOAMOR – CORREDOURA – CASTRELOS COSTA – PORTOLOUREIRO – SEIXO – ESTR. VENDA – PORTO – FALCOIDO – UNIVERSIDADE', vuelta: 'UNIVERSIDADE – FALCOIDO – PORTO – ESTR. VENDA – SEIXO – PORTOLOUREIRO – CASTRELOS COSTA – PONTILLÓN – LATERAL ARQUITECTO PALACIOS – AVDA. CASTRELOS - GRAN VÍA – PZA. ESPAÑA - GRAN VÍA – URZÁIZ – REPÚBLICA ARGENTINA – G. BARBÓN – MIRAGALLA - ESTACIÓN FF.CC. (GUIXAR)'}
-            ]);
-        });
+        return util.request(this.routes, 'getRutas')
+        .then((lines) => lines.rutas.ruta)
+        .then((lines) => (config.crypto.rutes ? util.decode(lines) : lines))
+        .then((lines) => lines.map((line) => {
+            return {
+                id: line.linea,
+                name: line.nombre,
+                ida: line.ida,
+                vuelta: line.vuelta,
+                url: line.url
+            }
+        }));
     }
 
     line (id) {
-        return new Promise ((resolve, reject) => {
-            resolve(
-                {id: 'C1', name: 'CIRCULAR CENTRO', ida: 'PZA. AMÉRICA - CORUÑA - PZA. EUGENIO FADRIQUE - TORRECEDEIRA – GAITEIRO R. PORTELA - BERBÉS – CÁNOVAS DEL CASTILLO – G. OLLOQUI - PZA. COMPOSTELA – RECONQUISTA – P. SANZ - COLÓN - URZÁIZ - GRAN VIA - PZA. ESPAÑA - BARCELONA - CAMELIAS - PZA. AMÉRICA.', vuelta: 'SOLO IDA (LÍNEA CIRCULAR)'}
-            );
+        return util.request(this.routes, 'getLocation', {linea: id})
+        .then((line) => line.ruta)
+        .then((lines) => (config.crypto.rutes ? util.decode(lines) : lines))
+        .then((line) => {
+            return {
+                id: line.linea,
+                name: line.nombre,
+                ida: line.ida,
+                vuelta: line.vuelta,
+                url: line.url
+            }
         });
-    }
-
-    request (method, args) {
-        return new Promise((resolve, reject) => {
-            this.client[method](args, (err, results) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(results);
-                }
-            });
-        });
-    }
-
-    parseXML (attr) {
-        return (xml) => {
-            return new Promise((resolve, reject) => {
-                toJS(xml[attr], function (err, json) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(json);
-                    }
-                });
-            });
-        }
     }
 
     fixStop (el) {
@@ -89,7 +76,7 @@ class vitrasa {
     fixEstimation (el) {
     	return {
     		linea: el.Linea[0],
-    		ruta: el.Ruta[0].replace('Ã‘', 'Ñ'),
+    		ruta: el.Ruta[0].replace('Ã‘', 'Ñ').replace('Ã“', 'Ó'),
     		minutos: el.minutos[0],
     		metros: el.metros[0]
     	};

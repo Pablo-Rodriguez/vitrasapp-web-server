@@ -23,4 +23,4 @@ uddi.createClients(app).then(() => {
 			console.log(`\tMagic on port ${port}`);
 		}
 	});
-});
+}).catch((err) => console.log(err));

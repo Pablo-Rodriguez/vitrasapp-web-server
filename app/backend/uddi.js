@@ -54,7 +54,7 @@ module.exports = {
         }).catch((err) => console.log(err))
     },
     createVitrasa: function () {
-        new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
         	soap.createClient(config.wsdls.vitrasa, (err, client) => {
         		if (err) {
         			reject(err);
@@ -62,7 +62,7 @@ module.exports = {
         			resolve(client);
         		}
         	});
-        })
+        });
     },
     createClients: function (app) {
         return this.getServicesInfo().then((services) => {

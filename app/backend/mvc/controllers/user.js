@@ -2,9 +2,11 @@
 const passport = require('passport');
 const Model = require('../business/user');
 
+const config = require('../../config');
+
 class user {
 	constructor (rex) {
-        this.model = new Model(rex.getPlugin('user'));
+        this.model = new Model(rex.getPlugin(config.services.db));
 		rex.post('/usuarios/signin', this.newUser.bind(this));
 		rex.post('/usuarios/login', passport.authenticate('local', {
 			successRedirect: '/#/perfil',

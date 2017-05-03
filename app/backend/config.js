@@ -11,7 +11,13 @@ module.exports = {
     services: {
         vitrasa: 'vitrasa',
         db: 'BaseDatos',
-        places: 'places',
-        rutes: 'rutas'
+        places: 'Places',
+        rutes: 'Scraper'
+    },
+    crypto: {
+        rutes: true,
+        places: true,
+        db: true,
+        vitrasa: false
     }
 };
