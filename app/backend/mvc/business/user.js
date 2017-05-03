@@ -35,6 +35,26 @@ class user {
         .then((user) => this.fixUser(user))
     }
 
+    addLine (usuario, id_ruta) {
+        return util.request(this.client, 'agregar_Ruta_fav', {
+            usuario,
+            id_ruta
+        }).then(() => ({ok: true, id: id_ruta}));
+    }
+
+    deleteLine (usuario, id_ruta) {
+        return util.request(this.client, 'eliminar_Ruta_fav', {
+            usuario,
+            id_ruta
+        }).then(() => ({ok: true, id: id_ruta}));
+    }
+
+    getLines (usuario) {
+        return util.request(this.client, 'ver_mis_rutas', {usuario: usuario})
+        .then((user) => (config.crypto.db ? util.decode(user) : user))
+        .then((user) => user.rutas.ruta)
+    }
+
     fixUser (user) {
         return {
             username: user.usuario,

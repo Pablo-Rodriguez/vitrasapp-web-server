@@ -39,12 +39,7 @@ class user {
 	}
 
 	favLines (req, res) {
-		res.json([
-			{id: 'C1', name: 'CIRCULAR CENTRO', ida: 'PZA. AMÉRICA - CORUÑA - PZA. EUGENIO FADRIQUE - TORRECEDEIRA – GAITEIRO R. PORTELA - BERBÉS – CÁNOVAS DEL CASTILLO – G. OLLOQUI - PZA. COMPOSTELA – RECONQUISTA – P. SANZ - COLÓN - URZÁIZ - GRAN VIA - PZA. ESPAÑA - BARCELONA - CAMELIAS - PZA. AMÉRICA.', vuelta: 'SOLO IDA (LÍNEA CIRCULAR)'},
-			{id: 'L8', name: 'AREAL – PORTO / UNIVERSIDADE', ida: 'ESTACIÓN FF.CC. (GUIXAR) – AREAL – COLÓN – P. SANZ – Pº ALFONSO XII – PI I MARGALL – LÓPEZ MORA – PZA. AMÉRICA – AVDA. CASTRELOS – CLARA CAMPOAMOR – CORREDOURA – CASTRELOS COSTA – PORTOLOUREIRO – SEIXO – ESTR. VENDA – PORTO – FALCOIDO – UNIVERSIDADE', vuelta: 'UNIVERSIDADE – FALCOIDO – PORTO – ESTR. VENDA – SEIXO – PORTOLOUREIRO – CASTRELOS COSTA – PONTILLÓN – LATERAL ARQUITECTO PALACIOS – AVDA. CASTRELOS - GRAN VÍA – PZA. ESPAÑA - GRAN VÍA – URZÁIZ – REPÚBLICA ARGENTINA – G. BARBÓN – MIRAGALLA - ESTACIÓN FF.CC. (GUIXAR)'},
-			{id: 'C1', name: 'CIRCULAR CENTRO', ida: 'PZA. AMÉRICA - CORUÑA - PZA. EUGENIO FADRIQUE - TORRECEDEIRA – GAITEIRO R. PORTELA - BERBÉS – CÁNOVAS DEL CASTILLO – G. OLLOQUI - PZA. COMPOSTELA – RECONQUISTA – P. SANZ - COLÓN - URZÁIZ - GRAN VIA - PZA. ESPAÑA - BARCELONA - CAMELIAS - PZA. AMÉRICA.', vuelta: 'SOLO IDA (LÍNEA CIRCULAR)'},
-			{id: 'L8', name: 'AREAL – PORTO / UNIVERSIDADE', ida: 'ESTACIÓN FF.CC. (GUIXAR) – AREAL – COLÓN – P. SANZ – Pº ALFONSO XII – PI I MARGALL – LÓPEZ MORA – PZA. AMÉRICA – AVDA. CASTRELOS – CLARA CAMPOAMOR – CORREDOURA – CASTRELOS COSTA – PORTOLOUREIRO – SEIXO – ESTR. VENDA – PORTO – FALCOIDO – UNIVERSIDADE', vuelta: 'UNIVERSIDADE – FALCOIDO – PORTO – ESTR. VENDA – SEIXO – PORTOLOUREIRO – CASTRELOS COSTA – PONTILLÓN – LATERAL ARQUITECTO PALACIOS – AVDA. CASTRELOS - GRAN VÍA – PZA. ESPAÑA - GRAN VÍA – URZÁIZ – REPÚBLICA ARGENTINA – G. BARBÓN – MIRAGALLA - ESTACIÓN FF.CC. (GUIXAR)'}
-		]);
+		util.sendJSON(res, this.model.getLines(req.user.username));
 	}
 
 	addFavStop (req, res) {
@@ -52,8 +47,7 @@ class user {
 	}
 
 	addFavLine (req, res) {
-		console.log(req.body);
-		res.json({ok: true, id: req.body.id});
+		util.sendJSON(res, this.model.addLine(req.user.username, req.body.id));
 	}
 
 	deleteFavStop (req, res) {
@@ -61,8 +55,7 @@ class user {
 	}
 
 	deleteFavLine (req, res) {
-		console.log('delete', req.body);
-		res.json({ok: true, id: req.body.id});
+		util.sendJSON(res, this.model.deleteLine(req.user.username, req.body.id));
 	}
 
 	deleteUser (req, res) {
