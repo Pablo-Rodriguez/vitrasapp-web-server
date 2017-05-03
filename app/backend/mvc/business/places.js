@@ -9,7 +9,7 @@ class places {
 
     get (latitud, longitud) {
         return util.request(this.client, 'getPlaces', {lat: latitud, lng: longitud})
-        .then((lines) => (config.crypto.places ? util.decode(lines) : lines))
+        .then((places) => (config.crypto.places ? util.decode(places) : util.normalizeObj(places)))
         .then((places) => places.places.place);
     }
 }

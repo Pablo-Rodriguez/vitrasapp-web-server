@@ -1,7 +1,7 @@
 
 module.exports = {
     port: 5000,
-    debug: true,
+    debug: false,
     wsdls: {
         juddi: 'http://172.19.128.184:8080/juddiv3/services/inquiry?wsdl',
         vitrasa: 'http://sira.intecoingenieria.com/SWEstimacionParada.asmx?WSDL'
@@ -16,8 +16,8 @@ module.exports = {
         rutes: 'Scraper'
     },
     crypto: {
-        rutes: true,
-        places: true,
+        rutes: false,
+        places: false,
         db: true,
         vitrasa: false
     }

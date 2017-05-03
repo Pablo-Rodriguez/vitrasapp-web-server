@@ -1,6 +1,6 @@
 {
   "name": "vitrasapp-web-server",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Web server of a bigger project call vitrasapp whose challange is to create a better VITRASA app with improved UX and new features.",
   "main": "app/backend/server.js",
   "scripts": {

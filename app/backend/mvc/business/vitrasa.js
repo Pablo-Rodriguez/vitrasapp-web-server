@@ -36,7 +36,7 @@ class vitrasa {
     lines () {
         return util.request(this.routes, 'getRutas')
         .then((lines) => lines.rutas.ruta)
-        .then((lines) => (config.crypto.rutes ? util.decode(lines) : lines))
+        .then((lines) => (config.crypto.rutes ? util.decode(lines) : util.normalizeObj(lines)))
         .then((lines) => lines.map((line) => {
             return {
                 id: line.linea,
@@ -51,7 +51,7 @@ class vitrasa {
     line (id) {
         return util.request(this.routes, 'getLocation', {linea: id})
         .then((line) => line.ruta)
-        .then((lines) => (config.crypto.rutes ? util.decode(lines) : lines))
+        .then((lines) => (config.crypto.rutes ? util.decode(lines) : util.normalizeObj(lines)))
         .then((line) => {
             return {
                 id: line.linea,
@@ -67,6 +67,11 @@ class vitrasa {
         return Promise.all(ids.map((id) => {
             return this.line(id);
         }))
+        .then((lines) => {
+            return lines.filter((line) => {
+                return line.id != '' ? true : false;
+            });
+        });
     }
 
     fixStop (el) {

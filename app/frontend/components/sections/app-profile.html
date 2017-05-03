@@ -86,11 +86,13 @@
                 <li><b>email:</b><span>{{body.email}}</span></li>
                 <li><b>Teléfono:</b><span>{{body.phone}}</span></li>
             </ul>
-            <h3>Lineas favoritas</h3>
-            <vitrasa-lines
+            <template is="dom-if" if="{{showLines}}">
+                <h3>Lineas favoritas</h3>
+                <vitrasa-lines
                 lines="{{lines}}"
                 icon="close"
                 on-btn-click="deleteLine"></vitrasa-lines>
+            </template>
             <button type="button" on-click="handleClick">
                 Logout
                 <iron-icon icon="exit-to-app"></iron-icon>
@@ -119,6 +121,11 @@
                         value: function () {
                             return [];
                         }
+                    },
+                    showLines: {
+                        type: Boolean,
+                        value: false,
+                        computed: '_computeShowLines(lines)'
                     }
                 },
                 handleClick: function () {
@@ -142,6 +149,9 @@
                     } else {
                         window.location.hash = '#/login';
                     }
+                },
+                _computeShowLines: function (lines) {
+                    return lines.length > 0 ? true : false;
                 }
             });
         })();

@@ -18,7 +18,7 @@ class user {
             telf: body.phone,
             passw: body.password
         })
-        .then((result) => (config.crypto.db ? util.decode(result) : result))
+        .then((result) => (config.crypto.db ? util.decode(result) : util.normalizeObj(result)))
         .then((result) => {
             if (result.return !== 'true') {
                 throw 'Error al crear el usuario ' + body.username;
@@ -31,7 +31,7 @@ class user {
     getUser (usuario) {
         return util.request(this.client, 'ver_mis_datos', {usuario: usuario})
         .then((user) => user.datos)
-        .then((user) => (config.crypto.db ? util.decode(user) : user))
+        .then((user) => (config.crypto.db ? util.decode(user) : util.normalizeObj(user)))
         .then((user) => this.fixUser(user))
     }
 
@@ -51,7 +51,7 @@ class user {
 
     getLines (usuario) {
         return util.request(this.client, 'ver_mis_rutas', {usuario: usuario})
-        .then((user) => (config.crypto.db ? util.decode(user) : user))
+        .then((user) => (config.crypto.db ? util.decode(user) : util.normalizeObj(user)))
         .then((user) => user.rutas.ruta)
         .then((lines) => {
             return (typeof lines === 'object' ? lines : [lines])

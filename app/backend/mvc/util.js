@@ -41,10 +41,23 @@ module.exports = {
             });
         }
     },
+    normalizeStr (str) {
+        return str.replace(/[^A-záéíóúÁÉÍÓÚ0-9_-\sñ@\.\/:]+/g, '');
+    },
     decodeString (str) {
         let desCipher = new MCrypt('des', 'ecb');
         desCipher.open(new Buffer('x3PswpFXdpE=', 'base64'));
-        return desCipher.decrypt(new Buffer(str, 'base64')).toString().replace(/[^A-záéíóúÁÉÍÓÚ0-9_-\sñ@\.\/:]+/g, '');
+        return this.normalizeStr(desCipher.decrypt(new Buffer(str, 'base64')).toString());
+    },
+    normalizeObj (obj) {
+        for (let name in obj) {
+            if (typeof obj[name] === 'object') {
+                obj[name] = this.normalizeObj(obj[name]);
+            } else {
+                obj[name] = this.normalizeStr(obj[name]);
+            }
+        }
+        return obj;
     },
     decode (obj) {
         for (let name in obj) {
